@@ -9,13 +9,26 @@ class Calculator {
         this.currentOperand = ''
         this.previousOperand = ''
         this.operation = undefined
+        this.equalsClicked = false
     }
 
     delete() {
+        if (this.equalsClicked === true) {
+            this.currentOperand = ''
+            this.equalsClicked = false
+        }
         this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
 
+    equals() {
+        this.equalsClicked = true
+    }
+
     appendNumber(number) {
+        if (this.equalsClicked === true) {
+            this.currentOperand = ''
+            this.equalsClicked = false
+        }
         if (number === '.' && this.currentOperand.includes('.')) return
         this.currentOperand = this.currentOperand.toString() + number.toString()
     }
@@ -111,6 +124,7 @@ operationButtons.forEach(button => {
 equalsButton.addEventListener('click', button => {
     calculator.compute()
     calculator.updateDisplay()
+    calculator.equals()
 })
 
 allClearButton.addEventListener('click', button => {
